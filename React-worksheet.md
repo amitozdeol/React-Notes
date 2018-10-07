@@ -18,6 +18,7 @@
    10. [Styling Components](#stylingcomponents)
 3. [Getting real with API](#gettingrealwithapi)
    1. [Lifecycle methods](#lifecyclemethods)
+   2. [Fetching Data](#fetchingdata)
 
 <a name="intro"></a>
 
@@ -551,16 +552,64 @@ const Search = ({value, onChange, children}) =>
 
 [CSS Modules](https://github.com/css-modules/css-modules)
 
-
-
 <a name="gettingrealwithapi"></a>
 
 ## Getting real with API
-
-
 
 <a name="lifecyclemethods"></a>
 
 ### Lifecycle Methods -
 
-ff
+Type of lifecycle methods - 
+
+1. constructor()
+
+2. render() - 
+
+   1. return element. It shouldn't modify the component state.
+
+3. static getDerivedStateFromProps(props, state) - 
+
+   1. called both on the initial mount and on the subsequent updates. Return object to update state. It's a static method so no access to component instance. 
+
+4. componentDidMount() - 
+
+   1. called once when the component is mounted. That’s the perfect time to do an asynchronous request to fetch data from an API. The fetched data is stored in the local component state to display it in the render() lifecycle method.
+
+Which method get called first to last - 
+`constructor()` --> `getDerivedStateFromProps()` --> `render()` --> `componentDidMount()`
+
+For the `update` lifecycle of a component when the state or the props change, there are 5 lifecycle methods, in the following order:
+
+1. getDerivedStateFromProps()
+2. shouldComponentUpdate(nextProps, nextState) - 
+   1. called when the component updates due to state or prop change. 
+   2. return boolean. If false, component won't update. 
+   3. Helps in speed improvement of project
+3. render()
+4. getSnapshotBeforeUpdate(prevProps, prevState) - 
+   1. called right before the DOM changes appear to the user. return value that can be accessed inside componentDidUpdate() method as a parameter. 
+5. componentDidUpdate(prevProps, prevState, snapshot) - 
+   1. called immediately after updating.Helpful in fetching data from an API.  `snapshot` parameter contains the value recieved from getSnapshotBeforeUpdate() method. 
+   2. ```javascript
+      componentDidUpdate(prevProps) {
+        // Typical usage (don't forget to compare props):
+        if (this.props.userID !== prevProps.userID) {
+          this.fetchData(this.props.userID);
+        }
+      }
+      ```
+
+`componentDidCatch(error, info)` - New method added to catch error in componets. You can catch the error, store it in your local state, and show a message to the user.
+
+Graph - ![lifecycleMethods](images/lifecycleMethods.png)
+
+**Clock example with states** - [https://reactjs.org/docs/state-and-lifecycle.html](https://reactjs.org/docs/state-and-lifecycle.html)
+
+
+
+<a name="fetchingdata"></a>
+
+### Fetching Data -
+
+
