@@ -15,6 +15,9 @@
    7. [Controlled Components](#controlledcomponents)
    8. [Split up Components](#splitupcomponents)
    9. [Component Declarations](#componentdeclarations)
+   10. [Styling Components](#stylingcomponents)
+3. [Getting real with API](#gettingrealwithapi)
+   1. [Lifecycle methods](#lifecyclemethods)
 
 <a name="intro"></a>
 
@@ -401,7 +404,7 @@ const [x, y, ...z] = [1,2,3,4,5];    //x=1, y=2, z=[3,4,5]
 
 ### Controlled Components
 
-Form components like <input>, <textarea>, <select> all accept a`value`attribute that you can use to implement a controlled component. So it get's easier to control all these elements
+Form components like `<input>`, `<textarea>`, `<select>` all accept a `value` attribute that you can use to implement a controlled component. So it get's easier to control all these elements
 
 ```javascript
 this.state.value = "coconut";
@@ -418,7 +421,7 @@ this.state.value = "coconut";
 
 ### Split up Components
 
-We can split different html elements into components. For ex make a search component with a <form>, <label> and <input> into a <Search> component.
+We can split different html elements into components. For ex make a search component with a `<form>`, `<label>` and `<input>` into a `<Search>` component.
 
 ```javascript
   class Search extends Component {
@@ -475,7 +478,7 @@ render() {
     <div>
     <Greeting greeting={greeting} isShow={this.state.isShow} />
     <button onClick={this.toggleShow} type="button">
-    	Toggle Show
+        Toggle Show
     </button>
     </div>
   );
@@ -494,4 +497,70 @@ As said, there is no way passing props from a child to a parent component. But**
 
 ### Component Declarations
 
+| Functional Stateless Component                                                                                                 | ES6 Class Component                                                                   |
+| ------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------- |
+| `function Button(props){  }`                                                                                                   | `class Button extends Component`                                                      |
+| props can be accessed by the function parameter.                                                                               | props can be accesed by `this.props`                                                  |
+| You cannot access or update the state with `this.state` or `this.setState()`                                                   | You can access or update the states.                                                  |
+| Does not contains any lifecycle method besides `render()` which will be applied implicitly in functional stateless components. | Contains all the lifecycle methods including `constructor`, `render()` and many more. |
+| Used where the props state is not gonna change. Read only. For example: A Label.                                               | Used where the props value change all the time. For example: on button press          |
 
+**ES6 Simplfication of a function**
+
+This can be simplified 
+
+```
+function Search(prompt){
+  const {value, onChange, children} = prompt;
+  return(
+    <form>
+        {children}
+        <input
+        type="text"
+        value={value}
+        onChange={onChange}
+        />
+    </form>
+  )
+}
+```
+
+to - 
+
+```
+const Search = ({value, onChange, children}) =>
+    <form>
+        {children}
+        <input
+        type="text"
+        value={value}
+        onChange={onChange}
+        />
+    </form>
+```
+
+<a name="stylingcomponents"></a>
+
+### Styling Components
+
+| className                                                                                                          | inline style                                                            | variable style                                                                                                                                  |
+| ------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| You can give property `className` to any HTML item and style it that way. `className` is same as `class` in react. | Inside any HTML element add style attribute, `style={{ width: '30%' }}` | To clean up inline styling, assign property to a variable<br/> `const largeCol = { width: '40%'}` and assign variable, <br/> `style={largeCol}` |
+
+[Styled Components](https://github.com/styled-components/styled-components)
+
+[CSS Modules](https://github.com/css-modules/css-modules)
+
+
+
+<a name="gettingrealwithapi"></a>
+
+## Getting real with API
+
+
+
+<a name="lifecyclemethods"></a>
+
+### Lifecycle Methods -
+
+ff
