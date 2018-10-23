@@ -1,24 +1,38 @@
 # React Worksheet
 
-1. [ Introduction](#intro)
-   1. [Intro to JSX](#introtojsx)
-   2. [ReactDOM](#reactdom)
-   3. [Hot module reloading](#hotmodulereloading)
-   4. [Complex javascript in JSX](#complexjsinjsx)
-2. [ Basics in React](#basicsinreact)
-   1. [ES6 Object Initializer](#es6objectinitializer)
-   2. [Unidirectional Data Flow](#unidirectionaldataflow)
-   3. [Bindings](#bindings)
-   4. [Event Handler](#eventhandler)
-   5. [Interactions with Forms and Events](#formsandevents)
-   6. [ES6 Destructuring](#es6destructuring)
-   7. [Controlled Components](#controlledcomponents)
-   8. [Split up Components](#splitupcomponents)
-   9. [Component Declarations](#componentdeclarations)
-   10. [Styling Components](#stylingcomponents)
-3. [Getting real with API](#gettingrealwithapi)
-   1. [Lifecycle methods](#lifecyclemethods)
-   2. [Fetching Data](#fetchingdata)
+- [React Worksheet](#react-worksheet)
+  - [Introduction](#introduction)
+    - [Intro to JSX -](#intro-to-jsx)
+      - [const & let](#const--let)
+    - [ReactDOM](#reactdom)
+      - [Clock ticking example -](#clock-ticking-example)
+    - [Hot module replacement](#hot-module-replacement)
+    - [Complex javascript in JSX](#complex-javascript-in-jsx)
+      - [Convert to react component](#convert-to-react-component)
+  - [Basics in React](#basics-in-react)
+    - [ES6 Object Initializer](#es6-object-initializer)
+    - [Unidirectional Data Flow](#unidirectional-data-flow)
+    - [Bindings](#bindings)
+      - [Shortcut approach](#shortcut-approach)
+    - [Event Handler](#event-handler)
+    - [Interactions with Forms and Events](#interactions-with-forms-and-events)
+      - [Search using input fields -](#search-using-input-fields)
+    - [ES6 Destructuring](#es6-destructuring)
+    - [Controlled Components](#controlled-components)
+    - [Split up Components](#split-up-components)
+      - [Props vs. State](#props-vs-state)
+    - [Component Declarations](#component-declarations)
+    - [Styling Components](#styling-components)
+  - [Getting real with API](#getting-real-with-api)
+    - [Lifecycle Methods -](#lifecycle-methods)
+    - [Fetching Data](#fetching-data)
+      - [Template Literals -](#template-literals)
+      - [Fetch -](#fetch)
+    - [ES6 Spread Operators](#es6-spread-operators)
+    - [Conditional Rendering](#conditional-rendering)
+    - [Client or server-side search](#clientorserversidesearch)
+
+      
 
 <a name="intro"></a>
 
@@ -606,10 +620,119 @@ Graph - ![lifecycleMethods](images/lifecycleMethods.png)
 
 **Clock example with states** - [https://reactjs.org/docs/state-and-lifecycle.html](https://reactjs.org/docs/state-and-lifecycle.html)
 
-
-
 <a name="fetchingdata"></a>
 
-### Fetching Data -
+### Fetching Data
+
+const DEFAULT_QUERY = 'redux';
+const PATH_BASE = 'https://hn.algolia.com/api/v1';
+const PATH_SEARCH = '/search';
+const PARAM_SEARCH = 'query=';
+
+#### Template Literals -
+
+  Need back ticks`, dollar sign($) and curly brace
+
+1. Variable inside a string ``` `string text ${expression} string text` ```. If a new line is inside these back ticks, it will automatically be treated as `\n`.
+
+2. **Expression Interpolation** - ``` `Fifteen is ${a + b}` ``` 
+
+3. String Concatination - ```const url = `${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${DEFAULT_QUERY}`;```
+
+#### Fetch -
+
+```javascript
+  fetch(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}`) //fetch URL
+      .then(response => response.json()) //response transformed into JSON data structure
+      // when recieve data, it change the state of result.
+      // State change re-render the component, which calls the render() method which populate the page with this new result.
+      .then(result => this.setState({ result }))
+      .catch(error => error);
+```
+
+Data fetching in react - [https://www.robinwieruch.de/react-fetching-data/](https://www.robinwieruch.de/react-fetching-data/)
+
+<a name="es6spreadoperators"></a>
+
+### ES6 Spread Operators
+
+Normal spread
+
+```javascript
+  const userList = ['Robin', 'Andrew', 'Dan'];
+  const additionalUser = 'Jordan';
+  const allUsers = [ ...userList, additionalUser ];
+
+  console.log(allUsers);
+  // output: ['Robin', 'Andrew', 'Dan', 'Jordan']
+```
+
+merge array - 
+
+```javascript
+  const userList = ['Robin', 'Andrew'];
+  const additionalUsers = ['Dan', 'Jordan'];
+  const allUsers = [ ...userList, ...additionalUsers ];
+
+  console.log(allUsers);
+  // output: ['Robin', 'Andrew', 'Dan', 'Jordan']
+```
+
+**Object Spread operator** - This is react specific for now but will get implemented in future. 
+
+```javascript
+  const userNames = { firstname: 'Robin', lastname: 'Wieruch' };
+  const age = 28;
+  const user = { ...userNames, age };
+
+  console.log(user);
+  // output: { firstname: 'Robin', lastname: 'Wieruch', age: 28 }
+```
+
+current javascript way of joining objects ins by `Object.assign()`
+
+`const mergedObj = Object.assign( {}, obj1, obj2 );`
+
+<a name="conditionalrendering"></a>
+
+### Conditional Rendering
+
+In JavaScript a`true && 'Hello World'`always evaluates to ‘Hello World’. A`false && 'Hello World'`always evaluates to false.
+
+```javascript
+const result = true && 'Hello World';
+console.log(result);
+// Hello World
+
+const result = false && 'Hello World';
+console.log(result);
+// false
+```
+
+In React you can make use of that behaviour. If the condition is true, the expression after the logical && operator will be the output. If the condition is false, React ignores and skips the expression.
+
+```javascript
+function LoadingIndicator({ isLoading }) {
+  return (
+    <div>
+      { isLoading && <p>Loading...</p> }
+    </div>
+  );
+}
+```
+
+Multiple conditional rendering - https://www.robinwieruch.de/conditional-rendering-react/#switch-case-operator
+
+
+
+<a name="clientorserversidesearch"></a>
+
+### Client or server-side search
+
+
+
+
+
+
 
 
